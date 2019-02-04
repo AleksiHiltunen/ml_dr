@@ -32,12 +32,11 @@ class NN_Model:
 	def train_model(self, epochs=10):
 		self.history = self.model.fit(self.x_train, self.y_train, epochs=epochs, validation_split=0.25, batch_size=32, verbose=1)
 		self.predictions = self.model.predict(self.x_test)
-		loss, acc = self.model.evaluate(self.x_test, self.y_test)
-		
+		loss, acc = self.model.evaluate(self.x_test, self.y_test)	
 		print("Model accuracy is:", acc)
 		
 	def predict(self, index):
-		try:	
+		try:
 			p = self.predictions[index]
 			val = 0
 			for i in range(10):
@@ -46,20 +45,30 @@ class NN_Model:
 					break
 					
 			print("Model predicted a value:", val)
-			self.plot_test_image(index)
+			self.plot_test_image(self.x_test[index])
 			
 		except Exception as e:
 			print("Predict error:", e)
 			
-	def plot_test_image(self, index):
+	def predict_single(self, data):
+		p = self.model.predict(data)
+		val = 0
+		for i in range(10):
+			if p[0][i] == 1.0:
+				val = i
+				break
+		print("Model predicted a value:", val)
+		self.plot_test_image(data[0])
+	
+	def plot_test_image(self, data):
 		plt.figure()
-		plt.imshow(self.x_test[index])
+		plt.imshow(data)
 		plt.grid(False)
 		plt.show()
 		
-	def plot_train_image(self, index):
+	def plot_train_image(self, data):
 		plt.figure()
-		plt.imshow(self.x_train[index])
+		plt.imshow(data)
 		plt.grid(False)
 		plt.show()
 		
