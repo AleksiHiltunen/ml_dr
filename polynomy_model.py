@@ -69,37 +69,38 @@ def calc_polynom(a,b,c):
 
 model = keras.Sequential([	
 							keras.layers.Dense(3), 
-							keras.layers.Dense(100, activation=tf.nn.relu),
-							keras.layers.Dense(100, activation=tf.nn.relu),
+							keras.layers.Dense(128, activation=tf.nn.relu),
+							keras.layers.Dense(128, activation=tf.nn.relu),
 							keras.layers.Dense(2)
 						])
 						
 model.compile(optimizer='adam', loss='mean_squared_error', metrics=['accuracy'])
 
-"""Model is now initiated but not taught"""
-"""print("Model is now initiated but not taught. Making a prediction should return very random values")
-input("Press Enter to continue...")
-index = random.randint(0, len(test_x)-1)
-predictions = model.predict(test_x)
-p = predictions[index]
-print(p)
-
-input("Press Enter to continue...")
-"""
+while True:
+	index = random.randint(0, len(test_x)-1)
+	predictions = model.predict(test_x)
+	p = predictions[index]
+	print("Model thinks that " + str(test_x[index][0]) +"x² + " + str(test_x[index][1]) + "x + " + str(test_x[index][2]) + " roots are:") 
+	print(p)
+	print(test_y[index], "(Actual roots)")
+	i = input("Type t to let computer learn, Enter to predict again: ")
+	if(i == "t"):
+		break
+		
 print("=================BEGIN TRAINING============================")
-history = model.fit(train_x, train_y, epochs=50)
+history = model.fit(train_x, train_y, epochs=10)
 loss, acc = model.evaluate(test_x, test_y)	
 print("Model accuracy is:", acc)
 print("===================END TRAINING============================")
 
 print("Model is taught now and should return reasonable values")
-input("Press Enter to continue...")
 while True:
 	index = random.randint(0, len(test_x)-1)
 	predictions = model.predict(test_x)
 	p = predictions[index]
-	print("Predicted roots:", p)
-	print("Actual roots:", test_y[index])
-	i = input("Press Enter to continue...")
+	print("Model thinks that " + str(test_x[index][0]) +"x² + " + str(test_x[index][1]) + "x + " + str(test_x[index][2]) + " roots are:") 
+	print(p)
+	print(test_y[index], "(Actual roots)")
+	i = input("Type x to quit, enter to predict again: ")
 	if(i == "x"):
 		break
